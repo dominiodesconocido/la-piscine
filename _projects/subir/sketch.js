@@ -3,18 +3,19 @@ let dentroDeLaHabitacion = false;
 let puertaPos = { x: 0, y: 200, z: 300 };
 let cuboExterior = true;
 let velocidadAumentada = false;
-let sonidoVoz, fondo, textura, reverb;
+let sonidoVoz, textura, reverb;
 let colores;
 
 function preload() {
   sonidoVoz = loadSound("voz.wav"); //  voz 
   textura = loadImage("textura.jpg"); // la textura del cubo exterior
-  fondo = loadImage("fondo.jpg"); //  fondo 
+  
 }
 
 function setup() {
   let canvas = createCanvas(600, 600, WEBGL);
   canvas.parent('div-sketch');
+  
   userStartAudio(); // AUDIOO activ0 después de una acción 
   
   reverb = new p5.Reverb();
@@ -37,13 +38,13 @@ function setup() {
 }
 
 function draw() {
-  background(0); // Color de fondo básico para iniciar
+  background(0); 
 
-  // el fondo está cargado, lo muestra fuera de la habitación
-  if (!dentroDeLaHabitacion && fondo) {
+  // para entrar sin la puerta con el scroll
+  if (!dentroDeLaHabitacion && textura) {
     push();
-    texture(fondo);
-    plane(width, height);
+    texture(textura);
+
     pop();
   }
 
@@ -139,7 +140,7 @@ class Figura {
     this.sonido = sonidoVoz;
 
     this.reverb = new p5.Reverb();
-    this.reverb.process(this.sonido, 1.5, 3); // reverb a cada sonido
+    this.reverb.process(this.sonido, 1.5, 2); // reverb a cada sonido
   }
 
   mover() {
@@ -163,7 +164,7 @@ class Figura {
     }
 
     if (colision) {
-      this.sonido.rate(1 + this.id * 0.2); //  el pitch basado en el ID 
+      this.sonido.rate(1 + this.id *-1); //  el pitch basado en el ID 
       this.sonido.play(); // play del sonido con pitch modificado
     }
   }
